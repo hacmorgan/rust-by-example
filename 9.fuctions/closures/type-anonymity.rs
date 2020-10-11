@@ -1,0 +1,27 @@
+/*
+Type anonymity refers to `F` in apply()
+
+Some type must be given for `F`, as explained by the tutorial:
+    When a closure is defined, the compiler implicitly creates a new anonymous 
+    structure to store the captured variables inside, meanwhile implementing the
+    functionality via one of the traits: Fn, FnMut, or FnOnce for this unknown 
+    type.
+*/
+
+// `F` must implement `Fn` for a closure which takes no
+// inputs and returns nothing - exactly what is required
+// for `print`.
+fn apply<F>(f: F) where
+    F: Fn() {
+    f();
+}
+
+fn main() {
+    let x = 7;
+
+    // Capture `x` into an anonymous type and implement
+    // `Fn` for it. Store it in `print`.
+    let print = || println!("{}", x);
+
+    apply(print);
+}
